@@ -64,6 +64,25 @@ public class NumberTriangle {
      */
     public void maxSumPath() {
         // for fun [not for credit]:
+        int leftsum = 0;
+        int rightsum = 0;
+
+        if (this.isLeaf()) {
+            return;
+        }
+        else {
+            this.left.maxSumPath();
+            this.right.maxSumPath();
+
+            leftsum = this.left.root;
+            rightsum = this.right.root;
+
+            this.root = this.root + Math.max(leftsum, rightsum);
+
+            this.left = null;
+            this.right = null;
+        }
+
     }
 
 
@@ -89,7 +108,16 @@ public class NumberTriangle {
      */
     public int retrieve(String path) {
         // TODO implement this method
-        return -1;
+        if (path.isEmpty()) {
+            return this.root;
+        }
+        else if (path.charAt(0) == 'l'){
+            return this.left.retrieve(path.substring(1));
+        }
+        else if (path.charAt(0) == 'r'){
+            return this.right.retrieve(path.substring(1));
+        }
+        throw new IllegalArgumentException("Neither 'l' nor 'r' found in path");
     }
 
     /** Read in the NumberTriangle structure from a file.
